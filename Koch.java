@@ -19,16 +19,28 @@ public class Koch {
 
 		/*
 		// Tests the snowflake function:
-		// Gets n, and draws a Koch snowflake of n edges in the standard canvass.
+		// Gets n, and draws a Koch snowflake of n edges in the standard canvass.*/
 		snowFlake(Integer.parseInt(args[0]));
-		*/
+		
 	}
 
 	/** Gets n, x1, y1, x2, y2,
      *  and draws a Koch curve of depth n from (x1,y1) to (x2,y2). */
 	public static void curve(int n, double x1, double y1, double x2, double y2) {
-		StdDraw.line(x1, y1, x2, y2);
-		//// Write the rest of your code below.
+		if (n == 0){
+			StdDraw.line(x1, y1, x2, y2);
+			return;
+		}
+        double thirdX = x1 + (x2 - x1) / 3.0;
+        double thirdY = y1 + (y2 - y1) / 3.0;
+        double twoThirdsX = x1 + 2 * (x2 - x1) / 3.0;
+        double twoThirdsY = y1 + 2 * (y2 - y1) / 3.0;
+        double tipX = (thirdX + twoThirdsX) / 2.0 + (thirdY - twoThirdsY) * Math.sqrt(3) / 2.0;
+        double tipY = (thirdY + twoThirdsY) / 2.0 + (twoThirdsX - thirdX) * Math.sqrt(3) / 2.0;
+        curve(n - 1, x1, y1, thirdX, thirdY);
+        curve(n - 1, thirdX, thirdY, tipX, tipY);
+        curve(n - 1, tipX, tipY, twoThirdsX, twoThirdsY);
+        curve(n - 1, twoThirdsX, twoThirdsY, x2, y2);
 	}
 
     /** Gets n, and draws a Koch snowflake of n edges in the standard canvass. */
@@ -37,6 +49,11 @@ public class Koch {
 		StdDraw.setYscale(0, 1.1);
 		StdDraw.setXscale(0, 1.1);
 		// Draws a Koch snowflake of depth n
-		//// Write the rest of your code below.
+        double x1 = 0.2, y1 = 0.75;
+        double x2 = 0.8, y2 = 0.75;
+        double x3 = 0.5, y3 = 0.23;
+        curve(n, x1, y1, x2, y2);
+        curve(n, x2, y2, x3, y3);
+        curve(n, x3, y3, x1, y1);
 	}
 }
